@@ -215,20 +215,33 @@ local config = {
                         ['<leader>2'] = { "<Cmd>lua require('harpoon.ui').nav_file(2)<CR>" },
                         ['<leader>3'] = { "<Cmd>lua require('harpoon.ui').nav_file(3)<CR>" },
                         ['<leader>4'] = { "<Cmd>lua require('harpoon.ui').nav_file(4)<CR>" },
-                        ['p'] = { "p=l" }
+                        ['p'] = { "p=l" },
+                        ['<leader>p'] = { '<Cmd>lua require("user.utils").fuzzy_dirs()<CR>' },
+                        ['T'] = { ":tabnew<CR>" },
+                        [",g"] = { ":G<CR>:only<CR>" }
 
                         -- quick save
                         -- ["<C-s>"] = { ":w!<cr>", desc = "Save File" },  -- change description but the same command
                 },
                 -- no andan
-                -- x = {
-                --         ['<C-j>'] = { ':m \'>+1<CR>gv=gv' },
-                --         ['<C-k>'] = { ':m \'<-2<CR>gv=gv' },
-                -- },
+                x = {
+                        --         ['<C-j>'] = { ':m \'>+1<CR>gv=gv' },
+                        --         ['<C-k>'] = { ':m \'<-2<CR>gv=gv' },
+                        ['p'] = { "P" },
+                        ['<leader>g'] = { ':g/.*/norm!' }
+                },
                 t = {
                         -- setting a mapping to false will disable it
                         -- ["<esc>"] = false,
                 },
+                -- i = {
+                --         ["<C-K>"] = { "<Cmd>lua require('luasnip').expand_or_jump()<CR>" },
+                --         ["<C-E"] = { "<Plug>luasnip-next-choice" }
+                -- },
+                -- s = {
+                --         ["<C-E"] = { "<Plug>luasnip-next-choice" }
+                --
+                -- }
         },
 
         -- Configure plugins
@@ -239,7 +252,9 @@ local config = {
                                 require 'user.lir_config'
                         end },
                         { "kazhala/close-buffers.nvim" },
-                        { "ThePrimeagen/harpoon" }
+                        { "ThePrimeagen/harpoon" },
+                        { "tpope/vim-fugitive" },
+                        { "unblevable/quick-scope" }
                         -- You can disable default plugins as follows:
                         -- ["goolord/alpha-nvim"] = { disable = true },
 
@@ -368,6 +383,12 @@ local config = {
         -- anything that doesn't fit in the normal config locations above can go here
         polish = function()
 
+                require 'user.globals'
+
+                local ls = require 'luasnip'
+                local go = require 'user.snippets.go'
+
+                ls.add_snippets("go", go)
 
                 vim.cmd([[
                 cnoreabbrev W! w!
@@ -394,6 +415,12 @@ local config = {
                 highlight link LirGitStatusUnmerged ErrorMsg
                 highlight link LirGitStatusUntracked Comment
                 highlight link LirGitStatusIgnored Comment
+                ]])
+
+                vim.cmd([[
+                highlight QuickScopePrimary guifg='#afff5f' gui=underline ctermfg=155 cterm=underline
+                highlight QuickScopeSecondary guifg='#5fffff' gui=underline ctermfg=81 cterm=underline
+                hi CursorColumn cterm=NONE ctermbg=242 guibg=#393f4a
                 ]])
 
                 -- Set up custom filetypes
