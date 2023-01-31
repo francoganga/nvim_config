@@ -402,9 +402,10 @@ local config = {
                 cnoreabbrev Q q
                 cnoreabbrev Qall qall
                 cnoreabbrev Wqa wqa
-                cnoreabbrev E e
+                cnoreabbrev E silent e
                 cnoreabbrev Tabnew tabnew
                 cnoreabbrev Vs vs
+                cnoreabbrev e silent e
                 ]])
 
 
